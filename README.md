@@ -1,6 +1,6 @@
 # Elite Event Hub
 
-A premium event center booking website built with React, Tailwind CSS, Node.js, Express, and MongoDB.
+A premium event center booking website built with React, Tailwind CSS, Node.js, Express, and Microsoft SQL Server.
 
 ## Features
 
@@ -13,19 +13,26 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
 
 ## Setup
 
-1. Install dependencies:
+1. Install SQL Server and configure a local or hosted database instance.
+
+2. Install dependencies:
 
    ```bash
    npm install
    ```
 
-2. Create `.env` file in `server` from `.env.example` and update values:
+3. Create a `.env` file in `server` from `.env.example` and update values:
 
    ```bash
    cp server/.env.example server/.env
    ```
 
-3. Start the app:
+   Update the `DATABASE_URL` with your SQL Server connection string, e.g.:
+   ```
+   DATABASE_URL=Data Source=localhost;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name="SQL Server Management Studio";Command Timeout=0
+   ```
+
+4. Start the app:
 
    ```bash
    npm run dev
@@ -34,7 +41,7 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
    - Frontend: http://localhost:5173
    - Backend: http://localhost:4000
 
-4. Seed sample data (requires MongoDB running):
+5. Seed sample data (requires SQL Server running):
 
    ```bash
    npm run seed
@@ -49,16 +56,15 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
 ## Deployment on Render
 
 ### Prerequisites
-- MongoDB Atlas account (for cloud database)
+- SQL Server instance or managed SQL Server database
 - Render account
 - GitHub repository (already set up)
 
 ### Steps
 
-1. **Create MongoDB Atlas Database:**
-   - Go to [MongoDB Atlas](https://www.mongodb.com/cloud/atlas)
-   - Create a free cluster
-   - Get the connection string (e.g., `mongodb+srv://user:password@cluster0.xxxxx.mongodb.net/elite-event-hub`)
+1. **Create or connect to a SQL Server instance:**
+   - Use a local SQL Server installation or a managed SQL Server service.
+   - Make sure the instance is reachable from Render if deploying remotely.
 
 2. **Deploy to Render:**
    - Go to [Render.com](https://render.com)
@@ -72,7 +78,7 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
      - **Plan**: Free or Starter
 
 3. **Add Environment Variables in Render:**
-   - `MONGODB_URI`: Your MongoDB Atlas connection string
+   - `DATABASE_URL`: Your SQL Server connection string
    - `JWT_SECRET`: A secure random string (generate with `openssl rand -hex 32`)
    - `STRIPE_SECRET_KEY`: Your Stripe test/live key
    - `FRONTEND_URL`: Your Render app URL (e.g., `https://elite-event-hub.onrender.com`)

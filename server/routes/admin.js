@@ -10,10 +10,10 @@ router.use(authGuard, adminGuard);
 
 router.get('/summary', async (req, res, next) => {
   try {
-    const bookings = await Booking.find().sort({ createdAt: -1 }).limit(10);
-    const halls = await Hall.find().sort({ createdAt: -1 });
-    const payments = await Payment.find();
-    const revenue = payments.reduce((sum, item) => sum + (item.amount || 0), 0);
+    const bookings = await Booking.findAll({ order: [['createdAt', 'DESC']], limit: 10 });
+    const halls = await Hall.findAll({ order: [['createdAt', 'DESC']] });
+    const payments = await Payment.findAll();
+    const revenue = payments.reduce((sum, item) => sum + parseFloat(item.amount || 0), 0);
     res.json({ revenue, bookings, halls });
   } catch (error) {
     next(error);

@@ -10,7 +10,7 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || '');
 
 router.get('/', async (req, res, next) => {
   try {
-    const bookings = await Booking.find().sort({ date: 1, time: 1 });
+    const bookings = await Booking.findAll({ order: [['date', 'ASC'], ['time', 'ASC']] });
     res.json({ bookings });
   } catch (error) {
     next(error);
@@ -20,10 +20,10 @@ router.get('/', async (req, res, next) => {
 router.post('/', async (req, res, next) => {
   try {
     const { hallId, date, time, eventType, guests, services, name, email } = req.body;
-    const hall = await Hall.findById(hallId);
+    const hall = await Hall.findByPk(hallId);
     if (!hall) return res.status(404).json({ message: 'Selected hall not found.' });
 
-    const total = hall.price + (services?.length || 0) * 250;
+    const total = parseFloat(hall.price) + (services?.length || 0) * 250;
     const booking = await Booking.create({
       hallId,
       hallName: hall.name,
@@ -38,9 +38,9 @@ router.post('/', async (req, res, next) => {
       status: 'Pending',
     });
 
-    const payment = await Payment.create({ bookingId: booking._id, amount: total, status: 'pending', provider: 'stripe' });
+    const payment = await Payment.create({ bookingId: booking.id, amount: total, status: 'pending', provider: 'stripe' });
 
-    res.status(201).json({ bookingId: booking._id, paymentId: payment._id });
+    res.status(201).json({ bookingId: booking.id, paymentId: payment.id });
   } catch (error) {
     next(error);
   }
@@ -49,13 +49,13 @@ router.post('/', async (req, res, next) => {
 router.post('/pay', authGuard, async (req, res, next) => {
   try {
     const { bookingId } = req.body;
-    const booking = await Booking.findById(bookingId);
+    const booking = await Booking.findByPk(bookingId);
     if (!booking) return res.status(404).json({ message: 'Booking not found.' });
 
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round((booking.total || 0) * 100),
       currency: 'usd',
-      metadata: { bookingId: booking._id.toString() },
+      metadata: { bookingId: booking.id.toString() },
     });
 
     res.json({ clientSecret: paymentIntent.client_secret });
@@ -66,8 +66,9 @@ router.post('/pay', authGuard, async (req, res, next) => {
 
 router.patch('/:id/status', authGuard, async (req, res, next) => {
   try {
-    const booking = await Booking.findByIdAndUpdate(req.params.id, { status: req.body.status }, { new: true });
-    if (!booking) return res.status(404).json({ message: 'Booking not found.' });
+    const [updatedRowsCount] = await Booking.update({ status: req.body.status }, { where: { id: req.params.id } });
+    if (updatedRowsCount === 0) return res.status(404).json({ message: 'Booking not found.' });
+    const booking = await Booking.findByPk(req.params.id);
     res.json({ booking });
   } catch (error) {
     next(error);

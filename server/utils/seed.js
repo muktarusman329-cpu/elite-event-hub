@@ -54,10 +54,10 @@ const halls = [
 const seed = async () => {
   try {
     await connectDB();
-    await User.deleteMany();
-    await Hall.deleteMany();
-    await Booking.deleteMany();
-    await Payment.deleteMany();
+    await User.destroy({ truncate: true });
+    await Hall.destroy({ truncate: true });
+    await Booking.destroy({ truncate: true });
+    await Payment.destroy({ truncate: true });
 
     const adminPassword = process.env.ADMIN_PASSWORD || 'AdminPass123';
     const admin = await User.create({
@@ -67,11 +67,11 @@ const seed = async () => {
       role: 'admin',
     });
 
-    const createdHalls = await Hall.insertMany(halls);
+    const createdHalls = await Hall.bulkCreate(halls);
 
-    const bookings = await Booking.insertMany([
+    const bookings = await Booking.bulkCreate([
       {
-        hallId: createdHalls[0]._id,
+        hallId: createdHalls[0].id,
         hallName: createdHalls[0].name,
         name: 'Olivia Kim',
         email: 'olivia@example.com',
@@ -84,7 +84,7 @@ const seed = async () => {
         status: 'Confirmed',
       },
       {
-        hallId: createdHalls[1]._id,
+        hallId: createdHalls[1].id,
         hallName: createdHalls[1].name,
         name: 'Mason Reed',
         email: 'mason@example.com',
@@ -98,9 +98,9 @@ const seed = async () => {
       },
     ]);
 
-    await Payment.insertMany([
-      { bookingId: bookings[0]._id, amount: bookings[0].total, status: 'paid', provider: 'stripe' },
-      { bookingId: bookings[1]._id, amount: bookings[1].total, status: 'pending', provider: 'stripe' },
+    await Payment.bulkCreate([
+      { bookingId: bookings[0].id, amount: bookings[0].total, status: 'paid', provider: 'stripe' },
+      { bookingId: bookings[1].id, amount: bookings[1].total, status: 'pending', provider: 'stripe' },
     ]);
 
     console.log(`Seed completed: admin=${admin.email}`);

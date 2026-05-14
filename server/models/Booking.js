@@ -1,18 +1,62 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-const bookingSchema = new mongoose.Schema({
-  hallId: { type: mongoose.Schema.Types.ObjectId, ref: 'Hall', required: true },
-  hallName: { type: String, required: true },
-  userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
-  name: String,
-  email: String,
-  date: String,
-  time: String,
-  eventType: String,
-  guests: Number,
-  services: [String],
-  status: { type: String, enum: ['Pending', 'Confirmed', 'Rejected'], default: 'Pending' },
-  total: Number,
-}, { timestamps: true });
+const Booking = sequelize.define('Booking', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  hallId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: 'Halls',
+      key: 'id',
+    },
+  },
+  hallName: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  userId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Users',
+      key: 'id',
+    },
+  },
+  name: {
+    type: DataTypes.STRING,
+  },
+  email: {
+    type: DataTypes.STRING,
+  },
+  date: {
+    type: DataTypes.STRING,
+  },
+  time: {
+    type: DataTypes.STRING,
+  },
+  eventType: {
+    type: DataTypes.STRING,
+  },
+  guests: {
+    type: DataTypes.INTEGER,
+  },
+  services: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    defaultValue: [],
+  },
+  status: {
+    type: DataTypes.ENUM('Pending', 'Confirmed', 'Rejected'),
+    defaultValue: 'Pending',
+  },
+  total: {
+    type: DataTypes.DECIMAL(10, 2),
+  },
+}, {
+  timestamps: true,
+});
 
-export default mongoose.model('Booking', bookingSchema);
+export default Booking;

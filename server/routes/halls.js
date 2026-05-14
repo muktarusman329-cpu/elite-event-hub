@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.get('/', async (req, res, next) => {
   try {
-    const halls = await Hall.find().sort({ createdAt: -1 });
+    const halls = await Hall.findAll({ order: [['createdAt', 'DESC']] });
     res.json({ halls });
   } catch (error) {
     next(error);

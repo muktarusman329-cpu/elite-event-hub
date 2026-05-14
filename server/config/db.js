@@ -1,16 +1,31 @@
-import mongoose from 'mongoose';
+import { Sequelize } from 'sequelize';
+import dotenv from 'dotenv';
+
+dotenv.config();
+
+const connectionString = process.env.DATABASE_URL || 'Data Source=localhost;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name="SQL Server Management Studio";Command Timeout=0';
+
+const sequelize = new Sequelize(connectionString, {
+  dialect: 'mssql',
+  dialectOptions: {
+    options: {
+      encrypt: true,
+      trustServerCertificate: true,
+    },
+  },
+  logging: false, // Set to console.log to see SQL queries
+});
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(process.env.MONGODB_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log(`MongoDB connected: ${conn.connection.host}`);
+    await sequelize.authenticate();
+    console.log('SQL Server connected successfully.');
+    await sequelize.sync(); // Sync models with database
   } catch (error) {
-    console.error('MongoDB connection error:', error.message);
+    console.error('SQL Server connection error:', error.message);
     process.exit(1);
   }
 };
 
 export default connectDB;
+export { sequelize };

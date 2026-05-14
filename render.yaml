@@ -7,7 +7,7 @@ services:
     buildCommand: npm install && npm run build --workspace=client
     startCommand: npm start --workspace=server
     envVars:
-      - key: MONGODB_URI
+      - key: DATABASE_URL
         scope: run
         sync: false
       - key: JWT_SECRET

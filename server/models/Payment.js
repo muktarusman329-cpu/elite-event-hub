@@ -1,12 +1,38 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-const paymentSchema = new mongoose.Schema({
-  bookingId: { type: mongoose.Schema.Types.ObjectId, ref: 'Booking' },
-  amount: Number,
-  currency: { type: String, default: 'usd' },
-  status: { type: String, enum: ['pending', 'paid', 'failed'], default: 'pending' },
-  provider: String,
-  providerId: String,
-}, { timestamps: true });
+const Payment = sequelize.define('Payment', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  bookingId: {
+    type: DataTypes.INTEGER,
+    references: {
+      model: 'Bookings',
+      key: 'id',
+    },
+  },
+  amount: {
+    type: DataTypes.DECIMAL(10, 2),
+  },
+  currency: {
+    type: DataTypes.STRING,
+    defaultValue: 'usd',
+  },
+  status: {
+    type: DataTypes.ENUM('pending', 'paid', 'failed'),
+    defaultValue: 'pending',
+  },
+  provider: {
+    type: DataTypes.STRING,
+  },
+  providerId: {
+    type: DataTypes.STRING,
+  },
+}, {
+  timestamps: true,
+});
 
-export default mongoose.model('Payment', paymentSchema);
+export default Payment;

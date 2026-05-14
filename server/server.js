@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import connectDB from './config/db.js';
+import '../models/index.js'; // Import models to set up associations
 import authRoutes from './routes/auth.js';
 import hallRoutes from './routes/halls.js';
 import bookingRoutes from './routes/bookings.js';

@@ -1,14 +1,44 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/db.js';
 
-const hallSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  capacity: { type: Number, required: true },
-  price: { type: Number, required: true },
-  location: { type: String, required: true },
-  features: [{ type: String }],
-  status: { type: String, default: 'Available' },
-  image: String,
-  category: String,
-}, { timestamps: true });
+const Hall = sequelize.define('Hall', {
+  id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+  },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  capacity: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+  price: {
+    type: DataTypes.DECIMAL(10, 2),
+    allowNull: false,
+  },
+  location: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
+  features: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    defaultValue: [],
+  },
+  status: {
+    type: DataTypes.STRING,
+    defaultValue: 'Available',
+  },
+  image: {
+    type: DataTypes.STRING,
+  },
+  category: {
+    type: DataTypes.STRING,
+  },
+}, {
+  timestamps: true,
+});
 
-export default mongoose.model('Hall', hallSchema);
+export default Hall;
