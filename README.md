@@ -21,16 +21,24 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
    npm install
    ```
 
-3. Create a `.env` file in `server` from `.env.example` and update values:
+3. Create a `.env` file from `.env.example` and set your SQL Server variables (the backend reads `DB_*`, not `DATABASE_URL`):
 
    ```bash
-   cp server/.env.example server/.env
+   cp .env.example .env
    ```
 
-   Update the `DATABASE_URL` with your SQL Server connection string, e.g.:
+   Example (SQL authentication):
    ```
-   DATABASE_URL=Data Source=localhost;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=True;Application Name="SQL Server Management Studio";Command Timeout=0
+   DB_HOST=localhost
+   DB_PORT=1433
+   DB_NAME=myfirstdb
+   DB_USER=sa
+   DB_PASSWORD=your_sql_password_here
+   DB_ENCRYPT=true
+   DB_TRUST_SERVER_CERT=true
    ```
+
+   For Windows Integrated Security, set `DB_USE_INTEGRATED_AUTH=true` and omit `DB_USER` / `DB_PASSWORD`.
 
 4. Start the app:
 
@@ -49,7 +57,7 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
 
 ## Notes
 
-- Replace `STRIPE_SECRET_KEY` in `server/.env` with your Stripe test key for payment integration.
+- Replace `STRIPE_SECRET_KEY` in `.env` with your Stripe test key for payment integration.
 - The contact form and email reminders are scaffolded and can be extended with a real SMTP provider.
 - Use the admin dashboard by signing in with admin credentials seeded in the backend.
 
@@ -78,7 +86,7 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
      - **Plan**: Free or Starter
 
 3. **Add Environment Variables in Render:**
-   - `DATABASE_URL`: Your SQL Server connection string
+   - `DB_HOST`, `DB_PORT`, `DB_NAME`, `DB_USER`, `DB_PASSWORD` (and `DB_ENCRYPT` / `DB_TRUST_SERVER_CERT` as needed)
    - `JWT_SECRET`: A secure random string (generate with `openssl rand -hex 32`)
    - `STRIPE_SECRET_KEY`: Your Stripe test/live key
    - `FRONTEND_URL`: Your Render app URL (e.g., `https://elite-event-hub.onrender.com`)
@@ -94,7 +102,7 @@ A premium event center booking website built with React, Tailwind CSS, Node.js, 
 
 After seeding, use these to login to the admin dashboard:
 - **Email**: `admin@eliteeventhub.com`
-- **Password**: `AdminPass123`
+- **Password**: `AdminPass123` (or the value of `ADMIN_PASSWORD` in your `.env` when seeding)
 
 (Change these in production in `server/utils/seed.js`)
 

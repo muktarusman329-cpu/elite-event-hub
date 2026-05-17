@@ -1,20 +1,26 @@
 export const testimonials = [
   {
-    name: 'Maya Brooks',
-    title: 'Wedding Client',
-    review: 'Elite Event Hub made our ceremony unforgettable. Every detail felt luxurious and effortless.',
+    id: 1,
+    name: 'Sarah Mitchell',
+    role: 'Wedding Planner',
+    quote:
+      'Elite Event Hub made coordinating a 300-guest wedding effortless. The booking flow and admin approvals are incredibly smooth.',
     rating: 5,
   },
   {
-    name: 'Derek Chen',
-    title: 'Corporate Planner',
-    review: 'The conference hall had premium AV, smooth service, and a truly impressive ambience.',
+    id: 2,
+    name: 'David Chen',
+    role: 'Corporate Events Director',
+    quote:
+      'Our team books conference halls weekly. Real-time availability and instant confirmations save us hours every month.',
     rating: 5,
   },
   {
-    name: 'Saira Patel',
-    title: 'Birthday Host',
-    review: 'Booking was simple, the team responded fast, and the decorations were stunning.',
+    id: 3,
+    name: 'Amelia Brooks',
+    role: 'Celebration Host',
+    quote:
+      'Premium venues, transparent pricing, and a dashboard that keeps everyone aligned. Exactly what a modern platform should feel like.',
     rating: 5,
   },
 ];

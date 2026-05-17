@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import bcrypt from 'bcryptjs';
-import connectDB from '../config/db.js';
+import connectDB, { sequelize } from '../config/db.js';
 import User from '../models/User.js';
 import Hall from '../models/Hall.js';
 import Booking from '../models/Booking.js';
@@ -54,10 +54,7 @@ const halls = [
 const seed = async () => {
   try {
     await connectDB();
-    await User.destroy({ truncate: true });
-    await Hall.destroy({ truncate: true });
-    await Booking.destroy({ truncate: true });
-    await Payment.destroy({ truncate: true });
+    await sequelize.sync({ force: true });
 
     const adminPassword = process.env.ADMIN_PASSWORD || 'AdminPass123';
     const admin = await User.create({

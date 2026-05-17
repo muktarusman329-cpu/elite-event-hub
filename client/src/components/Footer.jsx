@@ -11,13 +11,13 @@ function Footer() {
           </p>
           <div className="flex items-center gap-4 text-slate-300">
             <a href="#" aria-label="Facebook" className="transition hover:text-emerald-300">
-              <Facebook className="h-5 w-5" />
+              <Facebook className="facebook" />
             </a>
             <a href="#" aria-label="Instagram" className="transition hover:text-emerald-300">
-              <Instagram className="h-5 w-5" />
+              <Instagram className="instagram" />
             </a>
             <a href="#" aria-label="Email" className="transition hover:text-emerald-300">
-              <Mail className="h-5 w-5" />
+              <Mail className="mail" />
             </a>
           </div>
         </div>
@@ -26,13 +26,13 @@ function Footer() {
           <div>
             <h4 className="mb-3 font-semibold text-white">Contact</h4>
             <p className="flex items-center gap-2 text-slate-400">
-              <Phone className="h-4 w-4 text-emerald-400" /> +1 555 123 9876
+              <Phone className="h-4 w-4 text-emerald-400" /> +234 803 123 4567
             </p>
             <p className="flex items-center gap-2 text-slate-400">
-              <Mail className="h-4 w-4 text-emerald-400" /> hello@eliteeventhub.com
+              <Mail className="h-4 w-4 text-emerald-400" /> muktarusman329@gmail.com
             </p>
             <p className="flex items-start gap-2 text-slate-400">
-              <MapPin className="mt-1 h-4 w-4 text-emerald-400" /> 42 Prestige Avenue, City Center
+              <MapPin className="mt-1 h-4 w-4 text-emerald-400" /> 42 Prestige Avenue, lagos , Nigeria
             </p>
           </div>
           <div>

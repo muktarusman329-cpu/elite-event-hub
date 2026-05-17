@@ -7,9 +7,24 @@ services:
     buildCommand: npm install && npm run build --workspace=client
     startCommand: npm start --workspace=server
     envVars:
-      - key: DATABASE_URL
+      - key: DB_HOST
         scope: run
         sync: false
+      - key: DB_PORT
+        value: "1433"
+      - key: DB_NAME
+        scope: run
+        sync: false
+      - key: DB_USER
+        scope: run
+        sync: false
+      - key: DB_PASSWORD
+        scope: run
+        sync: false
+      - key: DB_ENCRYPT
+        value: "true"
+      - key: DB_TRUST_SERVER_CERT
+        value: "true"
       - key: JWT_SECRET
         scope: run
         sync: false

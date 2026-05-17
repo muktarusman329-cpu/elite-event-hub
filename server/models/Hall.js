@@ -24,8 +24,14 @@ const Hall = sequelize.define('Hall', {
     allowNull: false,
   },
   features: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    defaultValue: [],
+    type: DataTypes.TEXT,
+    get() {
+      const rawValue = this.getDataValue('features');
+      return rawValue ? JSON.parse(rawValue) : [];
+    },
+    set(value) {
+      this.setDataValue('features', JSON.stringify(value || []));
+    },
   },
   status: {
     type: DataTypes.STRING,

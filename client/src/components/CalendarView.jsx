@@ -25,7 +25,7 @@ function CalendarView({ bookings }) {
               <div className="mt-4 space-y-3">
                 {dayEvents.length ? (
                   dayEvents.map((booking) => (
-                    <div key={booking._id} className="rounded-3xl bg-slate-900/80 p-3 text-sm text-slate-300">
+                    <div key={booking.id} className="rounded-3xl bg-slate-900/80 p-3 text-sm text-slate-300">
                       <p className="font-semibold text-white">{booking.hallName}</p>
                       <p>{booking.time} · {booking.eventType}</p>
                     </div>

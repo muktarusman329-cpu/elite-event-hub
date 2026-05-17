@@ -45,11 +45,17 @@ const Booking = sequelize.define('Booking', {
     type: DataTypes.INTEGER,
   },
   services: {
-    type: DataTypes.ARRAY(DataTypes.STRING),
-    defaultValue: [],
+    type: DataTypes.TEXT,
+    get() {
+      const rawValue = this.getDataValue('services');
+      return rawValue ? JSON.parse(rawValue) : [];
+    },
+    set(value) {
+      this.setDataValue('services', JSON.stringify(value || []));
+    },
   },
   status: {
-    type: DataTypes.ENUM('Pending', 'Confirmed', 'Rejected'),
+    type: DataTypes.STRING,
     defaultValue: 'Pending',
   },
   total: {

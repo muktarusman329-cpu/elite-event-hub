@@ -10,9 +10,9 @@ function Contact() {
               Whether you need a custom quote, venue consultation, or admin support, our team is ready to help.
             </p>
             <div className="mt-8 space-y-4 text-slate-300">
-              <p><strong>Phone:</strong> +1 555 123 9876</p>
-              <p><strong>Email:</strong> hello@eliteeventhub.com</p>
-              <p><strong>Location:</strong> 42 Prestige Avenue, City Center</p>
+              <p><strong>Phone:</strong> +234 803 123 4567</p>
+              <p><strong>Email:</strong> muktarusman329@gmail.com</p>
+              <p><strong>Location:</strong> 42 Prestige Avenue, lagos , Nigeria</p>
             </div>
           </div>
           <iframe
