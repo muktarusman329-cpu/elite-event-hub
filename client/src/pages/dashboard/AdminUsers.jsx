@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import api from '../../lib/axios';
 import { useToastStore } from '../../store/useToastStore';
-import { Button } from '../../components/ui/Button';
+import Button from '../../components/ui/Button';
 
 function AdminUsers() {
   const [users, setUsers] = useState([]);
@@ -28,7 +28,7 @@ function AdminUsers() {
         <table className="w-full min-w-[600px] text-left text-sm">
           <thead className="bg-slate-900/80 text-slate-400">
             <tr>
-              <th className="p-4">Name</th>
+              <th className="p-4">name</th>
               <th className="p-4">Email</th>
               <th className="p-4">Role</th>
               <th className="p-4" />
@@ -37,7 +37,20 @@ function AdminUsers() {
           <tbody>
             {users.map((u) => (
               <tr key={u.id} className="border-t border-white/5 text-slate-300">
-                <td className="p-4 text-white">{u.name}</td>
+                <td className="p-4 text-white">
+                  <div className="flex items-center gap-3">
+                    <div className="h-10 w-10 overflow-hidden rounded-full border border-slate-700 bg-slate-900">
+                      {u.profilePicture ? (
+                        <img src={u.profilePicture} alt={u.name} className="h-full w-full object-cover" />
+                      ) : (
+                        <div className="flex h-full items-center justify-center text-xs uppercase text-slate-500">
+                          {u.name?.slice(0, 2) || 'nA'}
+                        </div>
+                      )}
+                    </div>
+                    <span>{u.name}</span>
+                  </div>
+                </td>
                 <td className="p-4">{u.email}</td>
                 <td className="p-4 capitalize">{u.role}</td>
                 <td className="p-4 text-right">

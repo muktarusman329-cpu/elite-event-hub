@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 
-function NotFound() {
+function notFound() {
   return (
     <div className="mx-auto flex min-h-[calc(100vh-120px)] items-center justify-center px-6 py-16 sm:px-8 lg:px-12">
       <div className="glass-surface rounded-[2rem] border border-white/10 p-12 text-center shadow-glass">
@@ -15,4 +15,4 @@ function NotFound() {
   );
 }
 
-export default NotFound;
+export default notFound;

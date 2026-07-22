@@ -5,47 +5,119 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-dotenv.config({ path: path.join(__dirname, '../.env') });
+dotenv.config({ path: path.join(__dirname, '../.env'), override: true });
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
-const useIntegratedAuth = process.env.DB_USE_INTEGRATED_AUTH === 'true';
+const env = (key, fallback = '') => {
+  const value = process.env[key];
+  return value === undefined || value === null ? fallback : String(value).trim();
+};
+
+const requireEnv = (key) => {
+  const value = env(key);
+
+  if (!value) {
+    throw new Error(
+      `${key} is required. Check server/.env and restart the backend.`
+    );
+  }
+
+  return value;
+};
+
+const useIntegratedAuth =
+  env('DB_USE_INTEGRATED_AUTH') === 'true';
+
+const databaseName = requireEnv('DB_NAME');
+
+const databaseUser = useIntegratedAuth
+  ? null
+  : requireEnv('DB_USER');
+
+const databasePassword = useIntegratedAuth
+  ? null
+  : requireEnv('DB_PASSWORD');
 
 const commonOptions = {
-  host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT) || 1433,
+  host: env('DB_HOST', 'localhost'),
+
+  port:
+    Number(env('DB_PORT', '1433')) || 1433,
+
   dialect: 'mssql',
+
   dialectOptions: {
     options: {
-      encrypt: process.env.DB_ENCRYPT === 'true',
-      trustServerCertificate: process.env.DB_TRUST_SERVER_CERT === 'true',
-      ...(useIntegratedAuth && { trustedConnection: true }),
+      encrypt:
+        env('DB_ENCRYPT') === 'true',
+
+      trustServerCertificate:
+        env('DB_TRUST_SERVER_CERT') ===
+        'true',
+
+      ...(useIntegratedAuth && {
+        trustedConnection: true,
+      }),
     },
   },
-  logging: process.env.DB_LOGGING === 'true' ? console.log : false,
+
+  logging:
+    env('DB_LOGGING') === 'true'
+      ? console.log
+      : false,
 };
 
 const sequelize = useIntegratedAuth
-  ? new Sequelize(process.env.DB_NAME, null, null, commonOptions)
+  ? new Sequelize(
+      databaseName,
+      null,
+      null,
+      commonOptions
+    )
   : new Sequelize(
-      process.env.DB_NAME,
-      process.env.DB_USER,
-      process.env.DB_PASSWORD,
+      databaseName,
+      databaseUser,
+      databasePassword,
       commonOptions
     );
 
+let isSynced = false;
+
 const connectDB = async () => {
   try {
+    console.log(
+      `Connecting to SQL Server ${commonOptions.host}:${commonOptions.port}/${databaseName} using ${
+        useIntegratedAuth
+          ? 'integrated auth'
+          : `SQL auth user "${databaseUser}"`
+      }.`
+    );
+
     await sequelize.authenticate();
-    console.log('SQL Server connected successfully.');
-    // Note: Avoid calling sequelize.sync() in production. Use database migrations instead.
-    if (process.env.NODE_ENV !== 'production') {
-       await sequelize.sync(); 
+
+    console.log(
+      'SQL Server connected successfully.'
+    );
+
+    // DEVELOPMENT ONLY — alter keeps existing data while updating schema
+    if (env('NODE_ENV') !== 'production' && !isSynced) {
+      console.log(
+        'Syncing development schema (alter mode — data preserved).'
+      );
+
+      await sequelize.sync({ force: false });
+      isSynced = true;
     }
   } catch (error) {
-    console.error('SQL Server connection error:', error);
+    console.error(
+      'SQL Server connection error:',
+      error
+    );
+
     throw error;
   }
 };
 
 export default connectDB;
+
 export { sequelize };

@@ -1,12 +1,12 @@
 import { Server } from 'socket.io';
-import { corsOrigins } from './corsOrigins.js';
+import { getCorsOrigins } from './corsOrigins.js';
 
 let io;
 
 export const initSocket = (server) => {
   io = new Server(server, {
     cors: {
-      origin: corsOrigins,
+      origin: getCorsOrigins(),
       methods: ['GET', 'POST', 'PATCH', 'DELETE'],
       credentials: true,
     },
@@ -23,6 +23,16 @@ export const initSocket = (server) => {
     socket.on('join_user', (userId) => {
       socket.join(`user_${userId}`);
       console.log(`Socket ${socket.id} joined user_${userId} room`);
+    });
+
+    socket.on('support_message', (payload) => {
+      if (!payload?.userId || !payload?.message) return;
+      io.to('admins').emit('support_message', payload);
+    });
+
+    socket.on('support_reply', (payload) => {
+      if (!payload?.targetUserId || !payload?.message) return;
+      io.to(`user_${payload.targetUserId}`).emit('support_reply', payload);
     });
 
     socket.on('disconnect', () => {

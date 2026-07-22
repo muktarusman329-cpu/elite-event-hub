@@ -18,6 +18,22 @@ const Hall = sequelize.define('Hall', {
   price: {
     type: DataTypes.DECIMAL(10, 2),
     allowNull: false,
+    comment: 'Base price for the hall',
+  },
+  hourlyRate: {
+    type: DataTypes.DECIMAL(10, 2),
+    defaultValue: 0,
+    comment: 'Additional charge per hour of event duration',
+  },
+  capacityPricePerGuest: {
+    type: DataTypes.DECIMAL(10, 2),
+    defaultValue: 0,
+    comment: 'Extra charge per guest above baseGuestCount',
+  },
+  baseGuestCount: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    comment: 'Number of guests included in the base price',
   },
   location: {
     type: DataTypes.STRING,
@@ -42,6 +58,13 @@ const Hall = sequelize.define('Hall', {
   },
   category: {
     type: DataTypes.STRING,
+  },
+  description: {
+    type: DataTypes.TEXT,
+  },
+  rating: {
+    type: DataTypes.DECIMAL(3, 2),
+    defaultValue: 4.5,
   },
 }, {
   timestamps: true,

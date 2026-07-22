@@ -1,9 +1,10 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion } from 'framer-motion';
 import api from '../../lib/axios';
 import { useSocketStore } from '../../store/useSocketStore';
 import { useToastStore } from '../../store/useToastStore';
-import { Button } from '../../components/ui/Button';
+import Button from '../../components/ui/Button';
+import { Textarea } from '../../components/ui/Textarea';
 
 function StatCard({ label, value, hint }) {
   return (
@@ -27,6 +28,9 @@ function AdminOverview() {
     stats: { pending: 0, approved: 0, totalUsers: 0 },
   });
   const [notifications, setNotifications] = useState([]);
+  const [supportChats, setSupportChats] = useState([]);
+  const [reply, setReply] = useState('');
+  const [selectedUserId, setSelectedUserId] = useState(null);
   const pushToast = useToastStore((s) => s.push);
   const on = useSocketStore((s) => s.on);
   const connectSocket = useSocketStore((s) => s.connectSocket);
@@ -42,14 +46,14 @@ function AdminOverview() {
   }, [connectSocket, load, pushToast]);
 
   useEffect(() => {
-    const unsubNew = on('new_booking', (booking) => {
+    const unsubnew = on('new_booking', (booking) => {
       setSummary((prev) => ({
         ...prev,
         bookings: [booking, ...prev.bookings].slice(0, 50),
         stats: { ...prev.stats, pending: (prev.stats?.pending || 0) + 1 },
       }));
-      setNotifications((n) => [{ id: booking.id, text: `New booking: ${booking.hallName}` }, ...n].slice(0, 8));
-      pushToast({ type: 'success', title: 'Live booking', message: `${booking.name} requested ${booking.hallName}` });
+      setNotifications((n) => [{ id: booking.id, text: `New booking: ${booking.hallname}` }, ...n].slice(0, 8));
+      pushToast({ type: 'success', title: 'Live booking', message: `${booking.name} requested ${booking.hallname}` });
     });
     const unsubUpdate = on('booking_updated', (booking) => {
       setSummary((prev) => ({
@@ -58,10 +62,56 @@ function AdminOverview() {
       }));
     });
     return () => {
-      unsubNew();
+      unsubnew();
       unsubUpdate();
     };
   }, [on, pushToast]);
+
+  useEffect(() => {
+    const unsubSupport = on('support_message', (payload) => {
+      setSupportChats((state) => [
+        {
+          id: payload.sentAt || Date.now(),
+          type: 'incoming',
+          userId: payload.userId,
+          username: payload.username,
+          message: payload.message,
+        },
+        ...state,
+      ]);
+      setSelectedUserId(payload.userId);
+      pushToast({ type: 'success', message: `Support message from ${payload.username}` });
+    });
+
+    return () => {
+      unsubSupport();
+    };
+  }, [on, pushToast]);
+
+  const sendSupportReply = () => {
+    if (!selectedUserId || !reply.trim()) return;
+    useSocketStore.getState().socket?.emit('support_reply', {
+      targetUserId: selectedUserId,
+      message: reply.trim(),
+      adminname: 'Admin',
+    });
+    setSupportChats((state) => [
+      {
+        id: Date.now(),
+        type: 'reply',
+        userId: selectedUserId,
+        message: reply.trim(),
+      },
+      ...state,
+    ]);
+    setReply('');
+    pushToast({ type: 'success', message: 'Reply sent.' });
+  };
+
+  const recentSupport = useMemo(
+    () => supportChats.filter((chat) => chat.userId === selectedUserId),
+    [supportChats, selectedUserId]
+  );
 
   const updateStatus = async (id, status) => {
     try {
@@ -82,7 +132,7 @@ function AdminOverview() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard label="Revenue" value={`$${Number(summary.revenue || 0).toLocaleString()}`} />
+        <StatCard label="Revenue" value={`₦${Number(summary.revenue || 0).toLocaleString()}`} />
         <StatCard label="Pending" value={summary.stats?.pending ?? 0} hint="Awaiting approval" />
         <StatCard label="Approved" value={summary.stats?.approved ?? 0} />
         <StatCard label="Users" value={summary.stats?.totalUsers ?? 0} />
@@ -103,7 +153,7 @@ function AdminOverview() {
               className="flex flex-col gap-3 rounded-xl border border-white/10 bg-slate-950/60 p-4 sm:flex-row sm:items-center sm:justify-between"
             >
               <div>
-                <p className="font-medium text-white">{booking.hallName}</p>
+                <p className="font-medium text-white">{booking.hallname}</p>
                 <p className="text-sm text-slate-400">
                   {booking.name} · {booking.date} {booking.time}
                 </p>
@@ -124,9 +174,58 @@ function AdminOverview() {
             </motion.div>
           ))}
           {!summary.bookings.length && (
-            <p className="text-center text-slate-500 py-8">No bookings yet. New requests appear here instantly.</p>
+            <p className="text-center text-slate-500 py-8">no bookings yet. new requests appear here instantly.</p>
           )}
         </motion.div>
+      </div>
+
+      <div className="glass-surface rounded-2xl p-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-xl font-semibold text-white">Support chat</h2>
+            <p className="mt-1 text-sm text-slate-400">Reply to customer requests from the admin dashboard.</p>
+          </div>
+          <div className="space-x-2">
+            {selectedUserId && (
+              <span className="inline-flex rounded-full bg-emerald-500/15 px-3 py-1 text-xs text-emerald-300">
+                Chatting with user {selectedUserId}
+              </span>
+            )}
+          </div>
+        </div>
+
+        <div className="mt-4 grid gap-4 lg:grid-cols-[0.85fr_0.45fr]">
+          <div className="space-y-3 rounded-3xl border border-white/10 bg-slate-950/90 p-4">
+            {recentSupport.length === 0 ? (
+              <div className="rounded-3xl bg-slate-900/90 p-4 text-slate-400">no active support chats yet. Incoming messages will appear here.</div>
+            ) : (
+              recentSupport.map((item) => (
+                <div
+                  key={item.id}
+                  className={`rounded-3xl p-4 ${item.type === 'reply' ? 'bg-emerald-500/10 text-emerald-200' : 'bg-slate-900/80 text-slate-100'}`}
+                >
+                  <div className="mb-2 flex items-center justify-between gap-2 text-xs text-slate-400">
+                    <span>{item.type === 'reply' ? 'Reply' : item.username}</span>
+                    <span>{item.id ? new Date(item.id).toLocaleTimeString() : ''}</span>
+                  </div>
+                  <p>{item.message}</p>
+                </div>
+              ))
+            )}
+          </div>
+
+          <div className="rounded-3xl border border-white/10 bg-slate-950/90 p-4">
+            <Textarea
+              label="Admin reply"
+              value={reply}
+              onChange={(e) => setReply(e.target.value)}
+              placeholder="Write your message to the customer"
+            />
+            <Button type="button" className="mt-3 w-full" onClick={sendSupportReply} disabled={!selectedUserId || !reply.trim()}>
+              Send reply
+            </Button>
+          </div>
+        </div>
       </div>
 
       {notifications.length > 0 && (

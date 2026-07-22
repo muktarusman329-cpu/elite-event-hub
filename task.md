@@ -1,0 +1,23 @@
+- [ ] **Backend**
+  - [ ] Update `Booking` model to add `guestToken`, `guestTokenExpiresAt`, `guestEmail` fields.
+  - [ ] Create `server/middleware/guestAuth.js` to validate token and expiration.
+  - [ ] Implement `server/controllers/guestBookingController.js` with create, get, update, status functions and email sending.
+  - [ ] Add email template (HTML string) with placeholder logo and link.
+  - [ ] Set up Nodemailer configuration (read from env variables).
+  - [ ] Create `server/routes/guestBookings.js` and mount it in `server/server.js`.
+  - [ ] Modify Google OAuth callback to send booking reminder email if matching guest email exists.
+  - [ ] Add env vars to `.env.example` (`SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `FROM_EMAIL`, `GUEST_TOKEN_DAYS`).
+- [ ] **Frontend**
+  - [ ] Update Axios interceptor (`client/src/api.js`) to attach `x-guest-token` from `localStorage` for guest routes.
+  - [ ] Enhance `BookingSuccess.jsx` to store `guestToken` in `localStorage` and render Review, Edit, Status buttons.
+  - [ ] Add new pages/components:
+    - `ReviewBooking.jsx` (display booking details)
+    - `EditBooking.jsx` (editable form, disable when approved/paid)
+    - `BookingStatus.jsx` (live polling badge)
+  - [x] Redesign footer `Footer.jsx` to match premium dark styles.
+  - [ ] Update React Router in `App.jsx` to include new routes.
+  - [ ] Apply Tailwind emerald button styling and dark‑theme consistency.
+  - [ ] Implement token expiration handling UI (show message on 401 and clear token).
+- [ ] **Testing**
+  - [ ] Write backend unit tests for guest routes and token expiry.
+  - [ ] Manual UI verification of guest flow, email receipt, token persistence, and expiration.

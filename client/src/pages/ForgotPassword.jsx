@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import api from '../lib/axios';
 import { useToastStore } from '../store/useToastStore';
-import { Input } from '../components/ui/Input';
-import { Button } from '../components/ui/Button';
+import Input from '../components/ui/Input';
+import Button from '../components/ui/Button';
 
 function ForgotPassword() {
   const [email, setEmail] = useState('');

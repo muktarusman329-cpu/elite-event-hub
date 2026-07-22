@@ -26,12 +26,12 @@ function CalendarView({ bookings }) {
                 {dayEvents.length ? (
                   dayEvents.map((booking) => (
                     <div key={booking.id} className="rounded-3xl bg-slate-900/80 p-3 text-sm text-slate-300">
-                      <p className="font-semibold text-white">{booking.hallName}</p>
+                      <p className="font-semibold text-white">{booking.hallname}</p>
                       <p>{booking.time} · {booking.eventType}</p>
                     </div>
                   ))
                 ) : (
-                  <p className="text-sm text-slate-500">No bookings</p>
+                  <p className="text-sm text-slate-500">no bookings</p>
                 )}
               </div>
             </div>

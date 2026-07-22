@@ -9,6 +9,7 @@ import {
   Bell,
   LogOut,
   Menu,
+  Sparkles,
 } from 'lucide-react';
 import { useState } from 'react';
 import { useAuthStore } from '../../store/useAuthStore';
@@ -19,7 +20,9 @@ const adminLinks = [
   { to: '/admin', label: 'Overview', icon: LayoutDashboard, end: true },
   { to: '/admin/bookings', label: 'Bookings', icon: CalendarDays },
   { to: '/admin/halls', label: 'Halls', icon: Building2 },
+  { to: '/admin/services', label: 'Services', icon: Sparkles },
   { to: '/admin/users', label: 'Users', icon: Users },
+  { to: '/admin/profile', label: 'Profile', icon: Bell },
   { to: '/admin/payments', label: 'Payments', icon: CreditCard },
 ];
 
@@ -43,16 +46,16 @@ function DashboardLayout({ variant = 'user', notifications = [] }) {
   };
 
   const sidebar = (
-    <aside className="flex h-full flex-col border-r border-white/10 bg-slate-950/90 p-5">
+    <aside className="flex h-full flex-col border-r border-white/5 bg-[#050814] p-6 text-left">
       <motion.div layout className="mb-8">
-        <p className="text-xs uppercase tracking-[0.35em] text-emerald-400">Elite Event Hub</p>
-        <h2 className="mt-2 text-lg font-semibold text-white">
+        <p className="text-[10px] uppercase tracking-[0.3em] text-emerald-400 font-bold">Elite Event Hub</p>
+        <h2 className="mt-2 text-base font-extrabold text-white leading-tight">
           {variant === 'admin' ? 'Admin Console' : 'My Dashboard'}
         </h2>
-        <p className="mt-1 truncate text-sm text-slate-400">{user?.email}</p>
+        <p className="mt-1 truncate text-xs text-slate-500 font-semibold">{user?.email}</p>
       </motion.div>
 
-      <nav className="flex flex-1 flex-col gap-1">
+      <nav className="flex flex-1 flex-col gap-1.5">
         {links.map(({ to, label, icon: Icon, end }) => (
           <NavLink
             key={to}
@@ -61,14 +64,14 @@ function DashboardLayout({ variant = 'user', notifications = [] }) {
             onClick={() => setOpen(false)}
             className={({ isActive }) =>
               cn(
-                'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition',
+                'flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold border transition',
                 isActive
-                  ? 'bg-emerald-500/15 text-emerald-300'
-                  : 'text-slate-400 hover:bg-white/5 hover:text-white'
+                  ? 'bg-gradient-to-r from-emerald-500/10 to-cyan-500/10 border-emerald-500/20 text-emerald-400 shadow-[0_0_12px_rgba(16,185,129,0.05)]'
+                  : 'border-transparent text-slate-400 hover:bg-white/5 hover:text-white'
               )
             }
           >
-            <Icon className="h-4 w-4" />
+            <Icon className="h-4.5 w-4.5" />
             {label}
           </NavLink>
         ))}
@@ -77,9 +80,9 @@ function DashboardLayout({ variant = 'user', notifications = [] }) {
       <button
         type="button"
         onClick={handleLogout}
-        className="mt-4 flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-slate-400 transition hover:bg-rose-500/10 hover:text-rose-300"
+        className="mt-4 flex items-center gap-3 rounded-xl px-4 py-3 text-sm font-bold text-slate-400 border border-transparent transition hover:bg-rose-500/10 hover:text-rose-300 hover:border-rose-500/10"
       >
-        <LogOut className="h-4 w-4" />
+        <LogOut className="h-4.5 w-4.5" />
         Sign out
       </button>
     </aside>

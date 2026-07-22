@@ -14,7 +14,6 @@ const User = sequelize.define('User', {
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -24,8 +23,19 @@ const User = sequelize.define('User', {
     type: DataTypes.STRING,
     defaultValue: 'user',
   },
+  profilePicture: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    defaultValue: null,
+  },
 }, {
   timestamps: true,
+  indexes: [
+    {
+      unique: true,
+      fields: ['email'],
+    },
+  ],
 });
 
 export default User;

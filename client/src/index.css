@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,25 +8,50 @@
   :root {
     color-scheme: dark;
     font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-    --background: 222.2 84% 4.9%;
+    
+    /* Midnight Emerald Theme */
+    --background: 224 71% 4.5%;
     --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
+    --card: 224 55% 7%;
     --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
+    --popover: 224 71% 4.5%;
     --popover-foreground: 210 40% 98%;
-    --primary: 142.1 76.2% 36.3%;
-    --primary-foreground: 355.7 100% 97.3%;
-    --secondary: 217.2 32.6% 17.5%;
+    --primary: 160 84% 39%;
+    --primary-foreground: 224 71% 4.5%;
+    --secondary: 187 92% 38%;
     --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --muted: 224 30% 11%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 187 92% 38%;
+    --accent-foreground: 224 71% 4.5%;
+    --destructive: 0 84.3% 60.2%;
     --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 142.1 76.2% 36.3%;
+    --border: 224 30% 15%;
+    --input: 224 30% 15%;
+    --ring: 160 84% 39%;
+  }
+
+  .dark {
+    color-scheme: dark;
+    
+    /* Cyber Cyan Theme */
+    --background: 224 71% 4.5%;
+    --foreground: 210 40% 98%;
+    --card: 224 55% 7%;
+    --card-foreground: 210 40% 98%;
+    --popover: 224 71% 4.5%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 187 92% 38%;
+    --primary-foreground: 224 71% 4.5%;
+    --secondary: 160 84% 39%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 224 30% 11%;
+    --muted-foreground: 215 20% 65%;
+    --accent: 160 84% 39%;
+    --accent-foreground: 224 71% 4.5%;
+    --border: 224 30% 15%;
+    --input: 224 30% 15%;
+    --ring: 187 92% 38%;
   }
 }
 
@@ -33,20 +60,176 @@
     @apply border-border;
   }
 
+  html {
+    scroll-behavior: smooth;
+  }
+
   body {
-    @apply min-h-screen bg-[#030712] font-sans text-foreground antialiased;
-    margin: 0;
-    background-image: radial-gradient(circle at 50% 0%, #111827 0%, transparent 70%);
+    @apply bg-background text-foreground antialiased transition-colors duration-300;
     background-attachment: fixed;
+  }
+
+  /* Typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-bold tracking-tight;
+  }
+
+  h1 {
+    @apply text-4xl md:text-5xl lg:text-6xl;
+  }
+
+  h2 {
+    @apply text-3xl md:text-4xl;
+  }
+
+  h3 {
+    @apply text-2xl md:text-3xl;
+  }
+
+  p {
+    @apply text-base leading-relaxed;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+
+  /* Form elements */
+  input:focus,
+  textarea:focus,
+  select:focus {
+    @apply outline-none ring-2 ring-offset-2 dark:ring-offset-slate-950 ring-primary/45;
+  }
+
+  /* Scrollbar styling */
+  ::-webkit-scrollbar {
+    @apply w-2 h-2;
+  }
+
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    @apply bg-slate-300 dark:bg-slate-700 rounded-full hover:bg-slate-400 dark:hover:bg-slate-600;
+  }
+
+  /* Selection */
+  ::selection {
+    @apply bg-blue-500/30 text-slate-950 dark:text-slate-100;
+  }
+
+  /* Placeholder */
+  ::placeholder {
+    @apply text-slate-400 dark:text-slate-500;
   }
 }
 
 @layer components {
-  .glass-surface {
-    @apply border border-white/10 bg-slate-950/70 backdrop-blur-xl;
+  /* Glass morphism */
+  .glass {
+    @apply bg-slate-950/45 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_0_rgba(0,0,0,0.5)];
+  }
+
+  .glass-sm {
+    @apply bg-slate-950/25 backdrop-blur-lg border border-white/5 shadow-md;
+  }
+
+  .glass-premium, .glass-surface {
+    @apply bg-[#070b19]/60 backdrop-blur-2xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.7)] hover:border-emerald-500/30 transition-all duration-300;
+  }
+
+  /* Gradients */
+  .bg-gradient-primary {
+    @apply bg-gradient-to-r from-emerald-500 to-cyan-500;
+  }
+
+  .bg-gradient-secondary {
+    @apply bg-gradient-to-r from-teal-500 to-indigo-600;
+  }
+
+  .text-gradient {
+    @apply bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent;
+  }
+
+  /* Cards */
+  .card-base {
+    @apply rounded-2xl border border-white/10 bg-slate-950/50 shadow-lg transition-all duration-300;
+  }
+
+  .card-hover {
+    @apply card-base hover:shadow-glow-emerald hover:border-emerald-500/30 hover:-translate-y-1;
+  }
+
+  /* Glow Effects */
+  .glow-hover-cyan {
+    @apply hover:shadow-glow-cyan hover:border-cyan-500/30 transition-all duration-300;
+  }
+
+  .glow-hover-emerald {
+    @apply hover:shadow-2xl hover:border-emerald-500/30 transition-all duration-300;
+  }
+
+  /* Buttons */
+  .btn-base {
+    @apply inline-flex items-center justify-center rounded-xl font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950;
+  }
+
+  /* Badges */
+  .badge-base {
+    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-sm font-medium;
+  }
+
+  /* Animations */
+  .animate-shimmer {
+    @apply animate-shimmer;
+  }
+
+  .animate-float {
+    @apply animate-float;
+  }
+
+  /* Utility classes */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .smooth-transition {
+    @apply transition-all duration-200 ease-out;
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-slate-950 focus:ring-emerald-500;
+  }
+
+  /* Container */
+  .container-custom {
+    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Section */
+  .section {
+    @apply py-16 md:py-24 lg:py-32;
+  }
+
+  .section-compact {
+    @apply py-8 md:py-12 lg:py-16;
   }
 }
 
-::selection {
-  @apply bg-emerald-500/30 text-emerald-100;
+/* Background animation */
+body {
+  background-image: 
+    radial-gradient(circle at 10% 20%, rgba(16, 185, 129, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 90% 80%, rgba(6, 182, 212, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 50% 50%, rgba(3, 7, 18, 0.6) 0%, transparent 100%);
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-800 rounded-full hover:bg-slate-700;
 }

@@ -1,4 +1,4 @@
-export const mainNavItems = [
+export const mainnavItems = [
   { to: '/', label: 'Home', end: true },
   { to: '/halls', label: 'Halls' },
   {

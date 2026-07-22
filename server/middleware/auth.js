@@ -7,6 +7,9 @@ export const authGuard = async (req, res, next) => {
   if (!token) return res.status(401).json({ message: 'Authorization required.' });
 
   try {
+    if (!process.env.JWT_SECRET) {
+      throw new Error('JWT_SECRET is not configured.');
+    }
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findByPk(decoded.id);
     if (!user) return res.status(401).json({ message: 'Invalid token.' });

@@ -1,10 +1,20 @@
 const photos = [
-  'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1515165562835-cdd5ed54d7f8?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1519677100203-a0e668c92439?auto=format&fit=crop&w=1200&q=80',
-  'https://images.unsplash.com/photo-1568605114967-8130f3a36994?auto=format&fit=crop&w=1200&q=80',
+  'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585818/pexels-reiez-35042467_metjgs.jpg',
+  'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585818/pexels-alex-talker-1663597564-27769510_bziab3.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585820/pexels-bbso-515173315-20733081_exg0nm.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585820/pexels-unpoquitodefoto-20059731_kktzrd.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585820/pexels-unpoquitodefoto-20059731_kktzrd.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585821/pexels-bertellifotografia-17057040_zunswf.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585857/pexels-bertellifotografia-16120243_sarljz.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585845/pexels-raj-730396-33852468_krk0os.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585856/pexels-vidalbalielojrfotografia-14646741_frj98k.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585850/pexels-vidalbalielojrfotografia-3376769_mh20c2.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585846/pexels-bertellifotografia-17057033_wzm0g5.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585846/pexels-bertellifotografia-17057033_wzm0g5.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585845/pexels-raj-730396-33852468_krk0os.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585856/pexels-vidalbalielojrfotografia-14646741_frj98k.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585850/pexels-vidalbalielojrfotografia-3376769_mh20c2.jpg',
+   'https://res.cloudinary.com/dpintbnfc/image/upload/v1780585842/pexels-quang-nguyen-vinh-222549-15621210_pmse0d.jpg',
 ];
 
 function Gallery() {

@@ -34,13 +34,17 @@ function UserMenuDropdown() {
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-2 rounded-full border border-slate-200 bg-white py-1.5 pl-1.5 pr-3 shadow-sm transition hover:border-blue-200 hover:shadow-md"
       >
-        <span className="flex h-8 w-8 items-center justify-center rounded-full bg-gradient-to-br from-blue-600 to-blue-700 text-xs font-bold text-white">
-          {initials || <User className="h-4 w-4" />}
+        <span className="flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-blue-600 to-blue-700 text-xs font-bold text-white">
+          {user.profilePicture ? (
+            <img src={user.profilePicture} alt={user.name || 'Profile'} className="h-full w-full object-cover" />
+          ) : (
+            initials || <User className="h-4 w-4" />
+          )}
         </span>
         <span className="hidden max-w-[120px] truncate text-sm font-medium text-slate-700 sm:block">
           {user.name?.split(' ')[0]}
         </span>
-        <ChevronDown className={`h-4 w-4 text-slate-400 transition ${open ? 'rotate-180' : ''}`} />
+        <ChevronDown className={`h-4 w-4 text-slate-400 transition duration-200 ${open ? 'rotate-180' : ''}`} />
       </button>
 
       <AnimatePresence>

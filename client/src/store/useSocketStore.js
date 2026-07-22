@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { io } from 'socket.io-client';
 import { useAuthStore } from './useAuthStore';
 
-const socketUrl = import.meta.env.VITE_SOCKET_URL || 'http://localhost:4000';
+const socketUrl = import.meta.env.VITE_SOCKET_URL || (import.meta.env.DEV ? 'http://localhost:4001' : undefined);
 
 export const useSocketStore = create((set, get) => ({
   socket: null,

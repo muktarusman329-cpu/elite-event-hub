@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build">
-  <Sdk Name="Microsoft.Build.Sql" Version="2.1.0" />
+  <Sdk name="Microsoft.Build.Sql" Version="2.1.0" />
   <PropertyGroup>
-    <Name>new-database</Name>
+    <name>new-database</name>
     <ProjectGuid>{4427DFB8-CE97-4390-8502-037AC8C9A360}</ProjectGuid>
     <DSP>Microsoft.Data.Tools.Schema.Sql.Sql170DatabaseSchemaProvider</DSP>
     <ModelCollation>1033, CI</ModelCollation>
   </PropertyGroup>
-  <Target Name="BeforeBuild">
-    <Delete Files="$(BaseIntermediateOutputPath)\project.assets.json" />
+  <Target name="BeforeBuild">
+    <Delete Files="n(BaseIntermediateOutputPath)\project.assets.json" />
   </Target>
 </Project>

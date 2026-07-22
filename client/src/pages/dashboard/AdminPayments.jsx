@@ -18,15 +18,15 @@ function AdminPayments() {
       <div className="glass-surface rounded-2xl p-6">
         <p className="text-sm text-slate-400">Total recorded revenue</p>
         <p className="mt-2 text-4xl font-semibold text-emerald-400">
-          ${Number(revenue).toLocaleString()}
+          ₦{Number(revenue).toLocaleString()}
         </p>
       </div>
       <div className="space-y-3">
         {bookings.slice(0, 12).map((b) => (
           <div key={b.id} className="glass-surface flex justify-between rounded-xl p-4 text-sm">
-            <span className="text-white">{b.hallName}</span>
+            <span className="text-white">{b.hallname}</span>
             <span className="text-slate-400">
-              ${Number(b.total || 0).toLocaleString()} - {b.status}
+              ₦{Number(b.total || 0).toLocaleString()} - {b.status}
             </span>
           </div>
         ))}

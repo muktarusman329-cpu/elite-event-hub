@@ -5,7 +5,7 @@ import { CalendarPlus, Clock, CheckCircle2 } from 'lucide-react';
 import api from '../../lib/axios';
 import { useAuthStore } from '../../store/useAuthStore';
 import { useSocketStore } from '../../store/useSocketStore';
-import { Button } from '../../components/ui/Button';
+import Button from '../../components/ui/Button';
 
 function UserOverview() {
   const { user } = useAuthStore();
@@ -69,13 +69,13 @@ function UserOverview() {
         <div className="mt-4 space-y-3">
           {bookings.slice(0, 5).map((b) => (
             <div key={b.id} className="rounded-xl border border-white/10 bg-slate-950/50 p-4">
-              <p className="font-medium text-white">{b.hallName}</p>
+              <p className="font-medium text-white">{b.hallname}</p>
               <p className="text-sm text-slate-400">
                 {b.date} · {b.status}
               </p>
             </div>
           ))}
-          {!bookings.length && <p className="text-slate-500">No bookings yet. Reserve your first event hall.</p>}
+          {!bookings.length && <p className="text-slate-500">no bookings yet. Reserve your first event hall.</p>}
         </div>
       </div>
     </div>

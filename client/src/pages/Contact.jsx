@@ -12,14 +12,14 @@ function Contact() {
             <div className="mt-8 space-y-4 text-slate-300">
               <p><strong>Phone:</strong> +234 803 123 4567</p>
               <p><strong>Email:</strong> muktarusman329@gmail.com</p>
-              <p><strong>Location:</strong> 42 Prestige Avenue, lagos , Nigeria</p>
+              <p><strong>Location:</strong> 42 Prestige Avenue, Abuja, nigeria</p>
             </div>
           </div>
           <iframe
             title="Google Maps"
             className="h-96 w-full rounded-[2rem] border border-white/10 shadow-glass"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3151.835434507861!2d144.953735315316!3d-37.81627974202166!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6ad65d43f2c02ab7%3A0x141b76a72dcaf55!2sFederation%20Square!5e0!3m2!1sen!2sus!4v1694527263771!5m2!1sen!2sus"
-            allowFullScreen=""
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126176.11812069448!2d7.3985744!3d9.0764785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x104e0a2b7c7f8c3d%3A0x99cf8c1d5d4f6b0!2sAbuja%2C%20Federal%20Capital%20Territory%2C%20Nigeria!5e0!3m2!1sen!2sng!4v1710000000000!5m2!1sen!2sng"
+            allowFullScreen="allowfullscreen"
             loading="lazy"
           />
         </div>
@@ -27,7 +27,7 @@ function Contact() {
           <h2 className="text-3xl font-semibold text-white">Send a message</h2>
           <form className="mt-8 space-y-5">
             <label className="block text-sm text-slate-300">
-              Name
+              name
               <input className="mt-2 w-full rounded-3xl border border-slate-700 bg-slate-950/90 px-4 py-3 text-slate-100 outline-none" placeholder="Your name" />
             </label>
             <label className="block text-sm text-slate-300">

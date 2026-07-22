@@ -6,7 +6,7 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState('bookings');
 
   useEffect(() => {
-    const token = JSON.parse(localStorage.getItem('eliteUserToken')) || '';
+    const token = localStorage.getItem('eliteUserToken') || localStorage.getItem('token') || '';
     if (!token) return;
 
     axios
@@ -32,7 +32,7 @@ function Dashboard() {
           <div className="grid gap-6 sm:grid-cols-3">
             <div className="glass-surface rounded-[2rem] border border-white/10 p-6 shadow-glass">
               <p className="text-sm uppercase tracking-[0.35em] text-slate-400">Total revenue</p>
-              <p className="mt-4 text-3xl font-semibold text-white">${summary.revenue.toLocaleString()}</p>
+              <p className="mt-4 text-3xl font-semibold text-white">₦{Number(summary.revenue || 0).toLocaleString()}</p>
             </div>
             <div className="glass-surface rounded-[2rem] border border-white/10 p-6 shadow-glass">
               <p className="text-sm uppercase tracking-[0.35em] text-slate-400">Bookings</p>
@@ -58,7 +58,7 @@ function Dashboard() {
                   <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                       <p className="font-semibold text-white">{booking.name}</p>
-                      <p className="text-sm text-slate-400">{booking.hallName} · {booking.date} · {booking.time}</p>
+                      <p className="text-sm text-slate-400">{booking.hallname} · {booking.date} · {booking.time}</p>
                     </div>
                     <span className="rounded-full bg-emerald-500/15 px-3 py-1 text-sm text-emerald-300">{booking.status}</span>
                   </div>
@@ -84,7 +84,7 @@ function Dashboard() {
                 <div className="space-y-4">
                   {summary.bookings.slice(0, 4).map((booking) => (
                     <div key={booking._id} className="rounded-3xl border border-slate-700 bg-slate-950/90 p-4">
-                      <p className="font-semibold text-white">{booking.hallName}</p>
+                      <p className="font-semibold text-white">{booking.hallname}</p>
                       <p className="text-sm text-slate-400">{booking.date} — {booking.eventType}</p>
                     </div>
                   ))}
@@ -108,7 +108,7 @@ function Dashboard() {
               <p>Monthly growth is strong thanks to premium corporate and wedding bookings.</p>
               <div className="rounded-3xl bg-slate-900/80 p-5">
                 <p className="text-sm text-slate-400">Projected earnings</p>
-                <p className="mt-2 text-3xl font-semibold text-white">${(summary.revenue * 1.12).toFixed(0)}</p>
+                <p className="mt-2 text-3xl font-semibold text-white">₦{Number(summary.revenue * 1.12 || 0).toFixed(0)}</p>
               </div>
             </div>
           </div>

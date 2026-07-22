@@ -56,7 +56,7 @@ const seed = async () => {
     await connectDB();
     await sequelize.sync({ force: true });
 
-    const adminPassword = process.env.ADMIN_PASSWORD || 'AdminPass123';
+    const adminPassword = process.env.ADMIN_PASSWORD || 'change_me_before_production';
     const admin = await User.create({
       name: 'Elite Admin',
       email: process.env.ADMIN_EMAIL || 'admin@eliteeventhub.com',
@@ -69,7 +69,7 @@ const seed = async () => {
     const bookings = await Booking.bulkCreate([
       {
         hallId: createdHalls[0].id,
-        hallName: createdHalls[0].name,
+        hallname: createdHalls[0].name,
         name: 'Olivia Kim',
         email: 'olivia@example.com',
         date: '2026-05-27',
@@ -82,7 +82,7 @@ const seed = async () => {
       },
       {
         hallId: createdHalls[1].id,
-        hallName: createdHalls[1].name,
+        hallname: createdHalls[1].name,
         name: 'Mason Reed',
         email: 'mason@example.com',
         date: '2026-06-04',
@@ -96,8 +96,8 @@ const seed = async () => {
     ]);
 
     await Payment.bulkCreate([
-      { bookingId: bookings[0].id, amount: bookings[0].total, status: 'paid', provider: 'stripe' },
-      { bookingId: bookings[1].id, amount: bookings[1].total, status: 'pending', provider: 'stripe' },
+      { bookingId: bookings[0].id, amount: bookings[0].total, currency: 'NGN', status: 'paid', provider: 'paystack' },
+      { bookingId: bookings[1].id, amount: bookings[1].total, currency: 'NGN', status: 'pending', provider: 'paystack' },
     ]);
 
     console.log(`Seed completed: admin=${admin.email}`);

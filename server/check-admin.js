@@ -12,10 +12,10 @@ const checkAdmin = async () => {
     }
     
     const isChangeMe = await bcrypt.compare('change_me_before_production', admin.password);
-    const isAdminPass = await bcrypt.compare('AdminPass123', admin.password);
+    const isAdminPass = await bcrypt.compare('change_me_before_production', admin.password);
     
     console.log('Password is "change_me_before_production":', isChangeMe);
-    console.log('Password is "AdminPass123":', isAdminPass);
+    console.log('Password is "change_me_before_production":', isAdminPass);
     process.exit(0);
   } catch (error) {
     console.error(error);

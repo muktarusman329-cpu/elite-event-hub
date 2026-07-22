@@ -51,7 +51,7 @@ const seedHalls = async () => {
       ]);
       console.log('Halls seeded successfully!');
     } else {
-      console.log('Halls already exist. No seeding needed.');
+      console.log('Halls already exist. no seeding needed.');
     }
     process.exit(0);
   } catch (error) {
